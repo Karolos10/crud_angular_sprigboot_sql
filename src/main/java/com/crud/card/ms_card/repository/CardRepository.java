@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class CardRepository implements ICardRepository{
 
-    @Autowired
+    @Autowired(required = false)
     private JdbcTemplate jdbcTemplate;
     @Override
     public List<Card> findAll() {
@@ -21,21 +21,21 @@ public class CardRepository implements ICardRepository{
 
     @Override
     public int save(Card card) {
-        String SQL = "INSERT INTO cards VALUES(?,?,?,?,?)";
+        String SQL = "INSERT INTO cards (name, number, type, cvv, status) VALUES (?, ?, ?, ?, ?)";
         return jdbcTemplate.update(SQL, new Object[]{card.getName(), card.getNumber(), card.getType(),
                 card.getCvv(), card.getStatus()});
     }
 
     @Override
     public int update(Card card) {
-        String SQL = "UPDATE cards SET name=?, number=?, type=?, cvv=?, WHERE id_card = ?";
+        String SQL = "UPDATE cards SET name=?, number=?, type=?, cvv=?, status=? WHERE id_card = 1";
         return jdbcTemplate.update(SQL, new Object[]{card.getName(), card.getNumber(),
-                card.getType(), card.getCvv(), card.getStatus()});
+                card.getType(), card.getCvv(), card.getStatus(), card.getId_card()});
     }
 
     @Override
     public int deleteById(int id) {
-        String SQL = "UPDATE cards SET status=1 WHERE id_card = ?";
+        String SQL = "UPDATE cards SET status=0 WHERE id_card = ?";
         return jdbcTemplate.update(SQL, new Object[]{id});
     }
 }

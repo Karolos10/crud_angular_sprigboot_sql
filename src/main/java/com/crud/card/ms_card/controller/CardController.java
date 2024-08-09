@@ -46,7 +46,7 @@ public class CardController {
         return new ResponseEntity<>(serviceResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @GetMapping("/delete/{id}")
     public ResponseEntity<ServiceResponse> delete(@PathVariable int id){
         ServiceResponse serviceResponse = new ServiceResponse();
         int result = iCardService.deleteById(id);
